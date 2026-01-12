@@ -4,14 +4,33 @@ import {
   IHistoryProvider,
   MarketHistory,
 } from '../../domain/analyze-history';
-import { BinanceClient } from './binance.client';
+import { BinanceClient, BinanceKline } from './binance.client';
+
+const MARKET_SYMBOL = 'BTCUSDC';
+const KLINE_INTERVAL = '1h';
+
+function toMarketHistory(klines: BinanceKline[]): MarketHistory {
+  return klines.map((it) => ({
+    from: it.openTime,
+    to: it.closeTime,
+    lowPrice: it.lowPrice,
+    highPrice: it.highPrice,
+  }));
+}
 
 @Injectable()
 export class BinanceHistoryProvider implements IHistoryProvider {
   constructor(private readonly client: BinanceClient) {}
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   async fetchHistory(query: AnalyzeHistoryRequestModel): Promise<MarketHistory> {
-    return [];
+    // TODO dynamically calculate interval to avoid exceeding response limit of 1000 klines
+    return this.client
+      .fetchKlines({
+        startTime: query.from.getTime(),
+        endTime: query.to.getTime(),
+        interval: KLINE_INTERVAL,
+        symbol: MARKET_SYMBOL,
+      })
+      .then(toMarketHistory);
   }
 }

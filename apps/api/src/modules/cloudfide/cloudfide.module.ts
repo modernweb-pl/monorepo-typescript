@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { HistoryController, HistoryService } from './api';
 import { AnalyzeHistoryUseCase, HISTORY_PROVIDER_SYMBOL } from './domain/analyze-history';
-import { BinanceHistoryProvider } from './infrastructure/binance';
+import { BinanceClient, BinanceHistoryProvider } from './infrastructure/binance';
 
 @Module({
   controllers: [HistoryController],
@@ -12,6 +12,7 @@ import { BinanceHistoryProvider } from './infrastructure/binance';
       provide: HISTORY_PROVIDER_SYMBOL,
       useClass: BinanceHistoryProvider,
     },
+    BinanceClient, // TODO move to separate module
   ],
 })
 export class CloudfideModule {}

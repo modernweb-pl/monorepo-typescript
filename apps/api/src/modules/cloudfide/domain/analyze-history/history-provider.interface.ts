@@ -1,5 +1,4 @@
-import { AnalyzeHistoryRequestModel } from './model';
-import { MarketHistory } from './model/market-history';
+import { AnalyzeHistoryRequestModel, MarketHistory } from './model';
 
 export const HISTORY_PROVIDER_SYMBOL = Symbol('HISTORY_PROVIDER_SYMBOL');
 
