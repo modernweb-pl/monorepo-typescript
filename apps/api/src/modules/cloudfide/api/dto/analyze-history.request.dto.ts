@@ -1,6 +1,6 @@
 import { BadRequestException } from '@nestjs/common';
 import { isAfter, isEqual, isFuture, isValid } from 'date-fns';
-import { AnalyzeHistoryRequestModel } from '../../domain/model';
+import { AnalyzeHistoryRequestModel } from '../../domain/analyze-history';
 
 export class AnalyzeHistoryRequestDto {
   from: string; // ISO date
